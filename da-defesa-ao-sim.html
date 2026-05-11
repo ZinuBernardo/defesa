@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Da Defesa ao SIM — A Arte de Transformar o NÃO do Cliente em SIM</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -33,1419 +33,1642 @@ src="https://www.facebook.com/tr?id=904199165970469&ev=PageView&noscript=1"
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --black: #080808;
-    --dark: #0f0f0f;
-    --card: #141414;
-    --border: #1e1e1e;
-    --gold: #C9A84C;
-    --gold-light: #E8C97A;
-    --gold-dark: #9A7B2E;
-    --red: #E63946;
-    --white: #F5F0E8;
-    --muted: #888;
-    --font: 'Outfit', sans-serif;
+    --primary: #0A1628;
+    --secondary: #1E293B;
+    --accent: #3B82F6;
+    --accent-hover: #2563EB;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --text: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-dark: #1E293B;
+    --bg-card: #FFFFFF;
+    --border: #E2E8F0;
+    --gold: #F59E0B;
+    --red: #EF4444;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  /* Lenis handles smooth scrolling natively */
   html { scroll-behavior: initial; }
-
-  /* ─── CUSTOM CURSOR ─── */
-  .cursor {
-    position: fixed;
-    top: 0; left: 0;
-    width: 24px; height: 24px;
-    border: 1.5px solid var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 999999;
-    transform: translate(-50%, -50%);
-    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s, border-color 0.4s;
-    mix-blend-mode: difference;
-  }
-  .cursor.hover {
-    width: 70px; height: 70px;
-    background-color: var(--gold);
-    border-color: transparent;
-  }
-
-  /* ─── LOADER ─── */
-  .loader {
-    position: fixed;
-    inset: 0;
-    background: var(--black);
-    z-index: 100000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--gold);
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: .4em;
-    text-transform: uppercase;
-  }
-  .loader-progress {
-    position: absolute;
-    bottom: 0; left: 0;
-    height: 4px;
-    background: var(--gold);
-    width: 0%;
-  }
-
-  /* ─── LENIS ─── */
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
-  .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
   .lenis.lenis-stopped { overflow: hidden; }
-  .lenis.lenis-scrolling iframe { pointer-events: none; }
 
-  .line { overflow: hidden; } /* For SplitType */
-
+  /* ─── BASE ─── */
   body {
     font-family: var(--font);
-    background: var(--black);
-    color: var(--white);
+    background: var(--primary);
+    color: var(--text);
     overflow-x: hidden;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* ─── NOISE OVERLAY ─── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: .4;
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
   }
 
-  /* ─── STICKY BAR ─── */
-  .sticky-bar {
+  .container-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ─── STICKY HEADER ─── */
+  .sticky-header {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
-    background: var(--gold);
-    padding: 12px 24px;
+    background: rgba(10, 22, 40, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 16px 0;
+    transform: translateY(-100%);
+    transition: transform 0.4s ease;
+  }
+  .sticky-header.visible { transform: translateY(0); }
+  .sticky-header-inner {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 24px;
-    transform: translateY(-100%);
-    transition: transform .4s ease;
   }
-  .sticky-bar.visible { transform: translateY(0); }
-  .sticky-bar span {
-    font-size: 14px;
-    font-weight: 700;
-    color: #000;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-  }
-  .sticky-bar a {
-    background: #000;
-    color: var(--gold);
+  .sticky-header-text {
     font-size: 13px;
-    font-weight: 800;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sticky-header-text svg { color: var(--success); }
+  .sticky-header-cta {
+    background: var(--accent);
+    color: white;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 700;
     text-decoration: none;
-    padding: 8px 20px;
-    border-radius: 4px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    transition: background .2s;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.2s;
     white-space: nowrap;
   }
-  .sticky-bar a:hover { background: #1a1a1a; }
+  .sticky-header-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
 
-  /* ─── HERO ─── */
+  /* ─── HERO SECTION ─── */
   .hero {
     position: relative;
-    padding: 120px 24px 60px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 0 80px;
     overflow: hidden;
   }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150%;
+    height: 100%;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
   .hero-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
+    gap: 60px;
     align-items: center;
-    max-width: 1600px;
-    margin: 0 auto;
     position: relative;
     z-index: 2;
   }
+
   .hero-content {
     text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative;
-    z-index: 3;
-    padding-left: 5%;
-  }
-  .hero-image {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    perspective: 2500px;
-    z-index: 2;
-    width: 100%;
-    padding-right: 5%;
-  }
-  .hero-image img {
-    width: 100%;
-    max-width: 580px;
-    height: auto;
-    transform: rotateY(-15deg);
-    filter: drop-shadow(30px 30px 60px rgba(0,0,0,0.7));
-    transition: transform 0.5s ease;
-  }
-  .hero-image:hover img {
-    transform: rotateY(-5deg) scale(1.05);
   }
 
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%),
-                radial-gradient(ellipse 50% 40% at 80% 80%, rgba(230,57,70,0.06) 0%, transparent 60%),
-                url('hero.png') center/cover no-repeat;
-    opacity: 0.4;
-  }
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, var(--black) 0%, transparent 50%, var(--black) 100%);
-  }
-
-  .hero-lines {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(to right, rgba(201,168,76,0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(201,168,76,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
-
-  .badge {
+  .hero-badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.3);
-    color: var(--gold);
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: var(--accent);
     font-size: 12px;
     font-weight: 700;
-    letter-spacing: .12em;
+    letter-spacing: .05em;
     text-transform: uppercase;
-    padding: 8px 18px;
+    padding: 8px 16px;
     border-radius: 100px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
-  .badge span { font-size: 16px; }
+  .hero-badge svg { width: 16px; height: 16px; }
 
   .hero-eyebrow {
-    font-size: clamp(13px, 2vw, 15px);
+    font-size: 14px;
     font-weight: 600;
-    letter-spacing: .2em;
+    letter-spacing: .1em;
     text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 20px;
+    color: var(--accent);
+    margin-bottom: 16px;
+    opacity: 0;
   }
 
   .hero h1 {
-    font-size: clamp(40px, 5.5vw, 80px);
+    font-size: clamp(36px, 5vw, 56px);
     font-weight: 900;
-    line-height: 1;
+    line-height: 1.1;
     letter-spacing: -.02em;
     margin-bottom: 24px;
-    text-align: left;
+    opacity: 0;
   }
 
-  .hero h1 .gold { color: var(--gold); }
-  .hero h1 .red { color: var(--red); }
+  .hero h1 .highlight { color: var(--accent); }
+  .hero h1 .highlight-gold { color: var(--gold); }
 
-  .hero-sub {
-    font-size: clamp(17px, 1.8vw, 21px);
-    font-weight: 400;
-    color: rgba(245,240,232,0.8);
-    max-width: 600px;
-    margin: 0 0 48px 0;
-    line-height: 1.6;
-    text-align: left;
+  .hero-description {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 0 0 32px;
+    line-height: 1.7;
+    opacity: 0;
   }
 
-  .hero-sub strong { color: var(--white); font-weight: 700; }
-
-  .hero-cta {
+  .hero-actions {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 16px;
+    max-width: 480px;
+    opacity: 0;
   }
 
-  .btn-primary {
-    display: inline-block;
-    background: var(--gold);
-    color: #000;
+  .btn-primary-large {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--accent);
+    color: white;
     font-family: var(--font);
-    font-size: 18px;
-    font-weight: 800;
+    font-size: 16px;
+    font-weight: 700;
     text-decoration: none;
-    padding: 20px 48px;
-    border-radius: 6px;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    transition: all .3s;
-    box-shadow: 0 0 40px rgba(201,168,76,0.3), 0 4px 20px rgba(0,0,0,0.5);
-    position: relative;
-    overflow: hidden;
+    padding: 18px 32px;
+    border-radius: 12px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
   }
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%; width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left .6s;
-  }
-  .btn-primary:hover::before { left: 100%; }
-  .btn-primary:hover {
+  .btn-primary-large:hover {
+    background: var(--accent-hover);
     transform: translateY(-2px);
-    box-shadow: 0 0 60px rgba(201,168,76,0.5), 0 8px 30px rgba(0,0,0,0.6);
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+  }
+  .btn-primary-large svg { width: 20px; height: 20px; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.2);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 16px 28px;
+    border-radius: 12px;
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .btn-secondary svg { width: 18px; height: 18px; }
+
+  .hero-trust {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 24px;
+    flex-wrap: wrap;
   }
 
-  .hero-guarantee {
-    font-size: 13px;
-    color: var(--muted);
+  .trust-item {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
   }
-  .hero-guarantee svg { color: var(--gold); flex-shrink: 0; }
+  .trust-item svg { color: var(--success); width: 16px; height: 16px; }
 
-  /* ─── PAIN SECTION ─── */
-  .section { padding: 100px 24px; max-width: 960px; margin: 0 auto; }
-  .section-wide { padding: 100px 24px; max-width: 1200px; margin: 0 auto; }
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-  .pain-section-grid {
+  .hero-image-wrapper {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-image-wrapper img {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    transform: perspective(2000px) rotateY(-8deg);
+    transition: transform 0.5s ease;
+  }
+  .hero-image-wrapper:hover img {
+    transform: perspective(2000px) rotateY(0deg) scale(1.02);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .hero-stats {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 16px;
+    z-index: 3;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+    min-width: 100px;
+  }
+
+  .stat-number {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-top: 4px;
+  }
+
+  /* ─── SOCIAL PROOF BAR ─── */
+  .social-proof-bar {
+    background: var(--secondary);
+    padding: 40px 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .social-proof-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+
+  .proof-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .proof-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+  .proof-icon svg { width: 24px; height: 24px; }
+
+  .proof-text strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 800;
+  }
+  .proof-text span {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* ─── PROBLEM SECTION ─── */
+  .problem-section {
+    padding: 100px 0;
+    background: var(--primary);
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 60px;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .section-label svg { width: 16px; height: 16px; }
+
+  .section-title {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -.02em;
+    margin-bottom: 20px;
+  }
+  .section-title .highlight { color: var(--accent); }
+  .section-title .highlight-red { color: var(--red); }
+  .section-title .highlight-gold { color: var(--gold); }
+
+  .section-subtitle {
+    font-size: 18px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .problem-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .problem-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-left: 4px solid var(--red);
+    padding: 20px 24px;
+    border-radius: 12px;
+    transition: all 0.3s;
+  }
+  .problem-card:hover {
+    border-left-color: var(--accent);
+    transform: translateX(4px);
+    background: rgba(255,255,255,0.05);
+  }
+
+  .problem-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .problem-text {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .problem-text strong { color: var(--text); }
+
+  .problem-image {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+  }
+
+  .problem-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .problem-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--primary) 0%, transparent 50%);
+  }
+
+  /* ─── SOLUTION / BOOK SECTION ─── */
+  .solution-section {
+    padding: 100px 0;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+  }
+
+  .solution-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 60px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
     align-items: center;
   }
-  .pain-image {
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-    height: 100%;
-    min-height: 500px;
-  }
-  .pain-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    inset: 0;
-    filter: brightness(0.8) contrast(1.1);
-  }
-  .pain-image::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(0deg, var(--black) 0%, transparent 30%);
-  }
 
-  .section-label {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-  }
-
-  h2 {
-    font-size: clamp(36px, 5vw, 64px);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -.02em;
-    margin-bottom: 24px;
-  }
-  h2 .gold { color: var(--gold); }
-  h2 .red { color: var(--red); }
-
-  .lead {
-    font-size: clamp(16px, 2vw, 20px);
-    color: rgba(245,240,232,0.7);
-    line-height: 1.7;
-    margin-bottom: 48px;
-  }
-  .lead strong { color: var(--white); }
-
-  /* ─── PAIN CHECKS ─── */
-  .pain-list {
-    display: grid;
-    gap: 16px;
-    margin-bottom: 48px;
-  }
-
-  .pain-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--red);
-    padding: 20px 24px;
-    border-radius: 8px;
-    transition: border-color .3s, transform .3s;
-  }
-  .pain-item:hover { border-left-color: var(--gold); transform: translateX(4px); }
-
-  .pain-item .icon {
-    flex-shrink: 0;
-    margin-top: -2px;
-    font-size: 24px;
-  }
-
-  .pain-item p {
-    font-size: 16px;
-    color: rgba(245,240,232,0.85);
-    line-height: 1.5;
-  }
-  .pain-item p strong { color: var(--white); }
-
-  /* ─── DIVIDER ─── */
-  .divider {
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--border), transparent);
-    margin: 0 24px;
-  }
-
-  /* ─── BOOK MOCKUP SECTION ─── */
-  .book-section {
-    padding: 120px 24px;
-    background: linear-gradient(rgba(8,8,8,0.85), rgba(8,8,8,0.85)), url('3.png') center/cover no-repeat;
-    background-attachment: fixed;
-    position: relative;
-    overflow: hidden;
-  }
-  .book-section::before {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .book-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: block;
-    text-align: center;
-  }
-
-  .book-cover {
+  .solution-visual {
     position: relative;
     display: flex;
     justify-content: center;
   }
 
-  .book-card {
+  .book-mockup {
     width: 260px;
     aspect-ratio: 3/4;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 8px;
+    background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 32px 24px;
     text-align: center;
-    box-shadow: 20px 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(201,168,76,0.1);
-    transform: perspective(1000px) rotateY(-8deg);
-    transition: transform .5s;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(59, 130, 246, 0.15);
+    transform: perspective(1000px) rotateY(-10deg);
+    transition: transform 0.5s;
     position: relative;
-    overflow: hidden;
   }
-  .book-card::before {
+  .book-mockup:hover { transform: perspective(1000px) rotateY(0deg) translateY(-10px); }
+
+  .book-mockup::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(201,168,76,0.05) 0%, transparent 60%);
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(59, 130, 246, 0.1) 0%, transparent 60%);
   }
-  .book-card:hover { transform: perspective(1000px) rotateY(0deg) translateY(-8px); }
 
-  .book-title-display {
-    font-size: 38px;
+  .book-title {
+    font-size: 32px;
     font-weight: 900;
-    color: var(--gold);
-    line-height: 1;
+    color: var(--accent);
+    line-height: 1.1;
     letter-spacing: -.02em;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
-  .book-subtitle-display {
-    font-size: 12px;
+
+  .book-subtitle {
+    font-size: 11px;
     font-weight: 600;
-    color: var(--white);
-    letter-spacing: .08em;
+    color: var(--text-muted);
+    letter-spacing: .1em;
     text-transform: uppercase;
-    line-height: 1.5;
-    margin-bottom: 24px;
-  }
-  .book-icon { color: var(--gold); }
-  .book-icon i { width: 48px; height: 48px; stroke-width: 1.5; }
-
-  .book-glow {
-    position: absolute;
-    bottom: -40px; right: -40px;
-    width: 200px; height: 200px;
-    background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
-    pointer-events: none;
   }
 
-  .book-content { position: relative; }
+  .book-icon {
+    margin-top: 24px;
+    color: var(--accent);
+  }
+  .book-icon svg { width: 40px; height: 40px; stroke-width: 1.5; }
 
-  /* ─── WHAT YOU GET ─── */
-  .chapters {
+  .solution-content h2 {
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .solution-content > p {
+    font-size: 17px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .chapters-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-top: 48px;
-    text-align: left;
+    gap: 12px;
   }
 
   .chapter-item {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 16px 20px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    transition: all .3s;
-    cursor: default;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px;
+    transition: all 0.3s;
   }
   .chapter-item:hover {
-    border-color: rgba(201,168,76,0.3);
-    background: rgba(201,168,76,0.05);
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
   }
 
   .chapter-num {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
-    color: var(--gold);
-    letter-spacing: .1em;
-    min-width: 32px;
+    color: var(--accent);
+    letter-spacing: .08em;
+    background: rgba(59, 130, 246, 0.15);
+    padding: 6px 10px;
+    border-radius: 6px;
+    min-width: 60px;
     text-align: center;
-    background: rgba(201,168,76,0.1);
-    padding: 4px 6px;
-    border-radius: 4px;
   }
 
   .chapter-text {
     font-size: 14px;
     font-weight: 500;
-    color: rgba(245,240,232,0.85);
+    color: var(--text-muted);
     flex: 1;
   }
 
-  /* ─── TRANSFORMATION ─── */
+  /* ─── TRANSFORMATION SECTION ─── */
   .transform-section {
-    padding: 100px 24px;
-    background: var(--dark);
-    position: relative;
+    padding: 100px 0;
+    background: var(--secondary);
   }
 
   .transform-grid {
-    max-width: 960px;
-    margin: 60px auto 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border-radius: 12px;
-    overflow: hidden;
+    gap: 24px;
+    margin-top: 60px;
   }
 
   .transform-card {
-    background: var(--card);
-    padding: 40px 32px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 32px 28px;
     text-align: center;
-    transition: background .3s;
     position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
   }
-  .transform-card:hover { background: rgba(201,168,76,0.05); }
+  .transform-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
 
   .transform-card::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 3px;
-    background: var(--gold);
+    background: linear-gradient(90deg, var(--accent), var(--gold));
     transform: scaleX(0);
-    transition: transform .4s ease;
-    transform-origin: left;
+    transition: transform 0.4s;
   }
   .transform-card:hover::before { transform: scaleX(1); }
 
-  .transform-emoji { margin-bottom: 20px; display: block; color: var(--gold); }
-  .transform-emoji i { width: 40px; height: 40px; stroke-width: 1.5; }
-  .transform-num {
-    font-size: 52px;
-    font-weight: 900;
-    color: var(--gold);
-    line-height: 1;
-    letter-spacing: -.03em;
+  .transform-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--accent);
   }
+  .transform-icon svg { width: 28px; height: 28px; }
+
+  .transform-number {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin-bottom: 12px;
+  }
+
   .transform-label {
     font-size: 14px;
-    color: var(--muted);
-    margin-top: 8px;
-    line-height: 1.4;
+    color: var(--text-muted);
+    line-height: 1.5;
   }
 
-  /* ─── OBJECTION SECTION ─── */
-  .objection-section {
-    padding: 100px 24px;
-    position: relative;
-    overflow: hidden;
-  }
-  .objection-section::before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(230,57,70,0.06) 0%, transparent 70%);
-    pointer-events: none;
+  /* ─── OBJECTIONS SECTION ─── */
+  .objections-section {
+    padding: 100px 0;
+    background: var(--primary);
   }
 
-  .objection-grid {
-    max-width: 960px;
-    margin: 60px auto 0;
+  .objections-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
+    margin-top: 60px;
   }
 
   .objection-card {
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
     overflow: hidden;
-    transition: transform .3s;
+    transition: all 0.3s;
   }
   .objection-card:hover { transform: translateY(-4px); }
 
-  .obj-top {
-    background: rgba(230,57,70,0.08);
-    border-bottom: 1px solid rgba(230,57,70,0.2);
+  .objection-question {
+    background: rgba(239, 68, 68, 0.08);
+    border-bottom: 1px solid rgba(239, 68, 68, 0.15);
     padding: 20px 24px;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 14px;
   }
-  .obj-top .icon { color: var(--red); flex-shrink: 0; }
-  .obj-top .icon i { width: 20px; height: 20px; stroke-width: 2; }
-  .obj-question {
+
+  .objection-question .icon {
+    color: var(--red);
+    flex-shrink: 0;
+  }
+  .objection-question .icon svg { width: 20px; height: 20px; stroke-width: 2; }
+
+  .objection-question p {
     font-size: 15px;
-    font-weight: 700;
-    color: rgba(245,240,232,0.9);
+    font-weight: 600;
+    color: var(--text);
     font-style: italic;
   }
-  .obj-question em { color: var(--red); font-style: normal; }
+  .objection-question em { color: var(--red); font-style: normal; }
 
-  .obj-bottom {
-    background: var(--card);
+  .objection-answer {
+    background: rgba(16, 185, 129, 0.05);
     padding: 20px 24px;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 14px;
   }
-  .obj-bottom .icon { color: #4ade80; flex-shrink: 0; }
-  .obj-bottom .icon i { width: 20px; height: 20px; stroke-width: 2; }
-  .obj-answer {
+
+  .objection-answer .icon {
+    color: var(--success);
+    flex-shrink: 0;
+  }
+  .objection-answer .icon svg { width: 20px; height: 20px; stroke-width: 2; }
+
+  .objection-answer p {
     font-size: 14px;
-    color: rgba(245,240,232,0.75);
+    color: var(--text-muted);
     line-height: 1.6;
   }
-  .obj-answer strong { color: var(--gold); }
+  .objection-answer strong { color: var(--accent); }
 
-  /* ─── TESTIMONIALS ─── */
+  /* ─── TESTIMONIALS SECTION ─── */
   .testimonials-section {
-    padding: 100px 24px;
-    background: var(--dark);
+    padding: 100px 0;
+    background: var(--secondary);
   }
 
   .testimonials-grid {
-    max-width: 960px;
-    margin: 60px auto 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+    margin-top: 60px;
   }
 
   .testimonial-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
     padding: 32px 28px;
     position: relative;
-    transition: all .3s;
+    transition: all 0.3s;
   }
   .testimonial-card:hover {
-    border-color: rgba(201,168,76,0.3);
     transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.3);
   }
 
   .testimonial-card::before {
     content: '"';
     position: absolute;
-    top: 16px; left: 24px;
-    font-size: 80px;
-    color: rgba(201,168,76,0.15);
+    top: 20px;
+    left: 24px;
+    font-size: 64px;
+    color: rgba(59, 130, 246, 0.15);
     font-family: Georgia, serif;
     line-height: 1;
   }
 
-  .stars { color: var(--gold); font-size: 14px; letter-spacing: 2px; margin-bottom: 16px; }
-  .testimonial-text {
-    font-size: 15px;
-    color: rgba(245,240,232,0.8);
-    line-height: 1.7;
-    margin-bottom: 24px;
-    padding-top: 20px;
+  .testimonial-stars {
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    padding-top: 16px;
     position: relative;
     z-index: 1;
   }
-  .testimonial-text strong { color: var(--white); }
+
+  .testimonial-text {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .testimonial-text strong { color: var(--text); }
 
   .testimonial-author {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
+
   .author-avatar {
-    width: 44px; height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    background: linear-gradient(135deg, var(--accent), var(--gold));
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
     font-weight: 800;
-    color: #000;
+    color: white;
     flex-shrink: 0;
   }
-  .author-name { font-size: 14px; font-weight: 700; }
-  .author-role { font-size: 12px; color: var(--muted); }
 
-  /* ─── PRICE SECTION ─── */
-  .price-section {
-    padding: 100px 24px;
-    text-align: center;
+  .author-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .author-role {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ─── PRICING SECTION ─── */
+  .pricing-section {
+    padding: 100px 0;
+    background: var(--primary);
     position: relative;
     overflow: hidden;
   }
-  .price-section::before {
+
+  .pricing-section::before {
     content: '';
     position: absolute;
-    top: 50%; left: 50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
     pointer-events: none;
   }
 
-  .price-box {
+  .pricing-card {
     max-width: 560px;
     margin: 0 auto;
-    background: var(--card);
-    border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 16px;
-    padding: 56px 48px;
+    background: var(--secondary);
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    border-radius: 24px;
+    padding: 48px 40px;
     position: relative;
     overflow: hidden;
   }
-  .price-box::before {
+
+  .pricing-card::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 4px;
-    background: linear-gradient(to right, var(--gold-dark), var(--gold-light), var(--gold-dark));
+    background: linear-gradient(90deg, var(--accent), var(--gold));
   }
 
-  .price-tag {
-    display: inline-block;
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.2);
-    color: var(--gold);
+  .pricing-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: var(--red);
     font-size: 11px;
-    font-weight: 800;
-    letter-spacing: .15em;
+    font-weight: 700;
+    letter-spacing: .08em;
     text-transform: uppercase;
-    padding: 6px 14px;
+    padding: 8px 16px;
     border-radius: 100px;
     margin-bottom: 24px;
   }
+  .pricing-badge svg { width: 14px; height: 14px; }
 
-  .price-old {
-    font-size: 20px;
-    color: var(--muted);
+  .pricing-old {
+    font-size: 18px;
+    color: var(--text-muted);
     text-decoration: line-through;
     margin-bottom: 8px;
   }
 
-  .price-current {
-    font-size: clamp(56px, 10vw, 80px);
+  .pricing-current {
+    font-size: clamp(48px, 8vw, 64px);
     font-weight: 900;
-    color: var(--gold);
+    color: var(--text);
     line-height: 1;
-    letter-spacing: -.03em;
+    letter-spacing: -.02em;
     margin-bottom: 8px;
   }
+  .pricing-current span { font-size: 28px; font-weight: 600; }
 
-  .price-note {
+  .pricing-note {
     font-size: 14px;
-    color: var(--muted);
-    margin-bottom: 40px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
   }
 
-  .price-features {
+  .pricing-features {
     display: grid;
     gap: 14px;
-    margin-bottom: 40px;
-    text-align: left;
+    margin-bottom: 32px;
   }
 
-  .price-feature {
+  .pricing-feature {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 14px;
     font-size: 15px;
-    color: rgba(245,240,232,0.85);
+    color: var(--text-muted);
   }
-  .price-feature .check {
-    color: var(--gold);
+
+  .pricing-feature .check {
+    color: var(--accent);
     font-size: 18px;
     flex-shrink: 0;
-    margin-top: 1px;
   }
 
-  .btn-buy {
+  .pricing-feature strong { color: var(--text); }
+
+  .btn-buy-large {
     display: block;
-    background: var(--gold);
-    color: #000;
+    width: 100%;
+    background: var(--accent);
+    color: white;
     font-family: var(--font);
     font-size: 18px;
-    font-weight: 900;
+    font-weight: 800;
     text-decoration: none;
-    padding: 22px 40px;
-    border-radius: 8px;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    transition: all .3s;
-    box-shadow: 0 0 50px rgba(201,168,76,0.35);
-    width: 100%;
+    padding: 20px 32px;
+    border-radius: 12px;
     text-align: center;
-    margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
   }
-  .btn-buy::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%; width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left .6s;
-  }
-  .btn-buy:hover::before { left: 100%; }
-  .btn-buy:hover {
+  .btn-buy-large:hover {
+    background: var(--accent-hover);
     transform: translateY(-2px);
-    box-shadow: 0 0 70px rgba(201,168,76,0.5);
-    background: var(--gold-light);
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
   }
 
-  .guarantee-row {
+  .pricing-guarantee {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
     font-size: 13px;
-    color: var(--muted);
+    color: var(--text-muted);
     margin-top: 20px;
   }
-  .guarantee-row svg { color: #4ade80; flex-shrink: 0; }
+  .pricing-guarantee svg { color: var(--success); width: 16px; height: 16px; }
 
-  /* ─── URGENCY ─── */
-  .urgency-bar {
-    background: rgba(230,57,70,0.08);
-    border: 1px solid rgba(230,57,70,0.2);
-    border-radius: 12px;
-    padding: 24px 32px;
+  /* ─── URGENCY SECTION ─── */
+  .urgency-section {
+    padding: 60px 0;
+    background: var(--secondary);
+  }
+
+  .urgency-card {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 24px;
-    max-width: 560px;
-    margin: 40px auto 0;
-    text-align: center;
+    justify-content: space-between;
+    gap: 32px;
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 16px;
+    padding: 32px 40px;
     flex-wrap: wrap;
   }
-  .urgency-text { font-size: 14px; color: rgba(245,240,232,0.7); }
+
+  .urgency-text {
+    font-size: 15px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .urgency-text svg { color: var(--red); width: 20px; height: 20px; }
   .urgency-text strong { color: var(--red); }
+
   .countdown {
     display: flex;
     gap: 12px;
     align-items: center;
   }
-  .count-block {
+
+  .countdown-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(230,57,70,0.15);
-    border: 1px solid rgba(230,57,70,0.3);
-    border-radius: 8px;
-    padding: 10px 14px;
-    min-width: 56px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 10px;
+    padding: 12px 16px;
+    min-width: 60px;
   }
-  .count-num {
-    font-size: 26px;
+
+  .countdown-number {
+    font-size: 28px;
     font-weight: 900;
     color: var(--red);
     line-height: 1;
   }
-  .count-label { font-size: 9px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; }
-  .count-sep { font-size: 22px; color: var(--red); font-weight: 900; align-self: flex-start; padding-top: 8px; }
 
-  /* ─── FINAL CTA ─── */
-  .final-cta {
-    padding: 120px 24px 80px;
+  .countdown-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .countdown-sep {
+    font-size: 24px;
+    color: var(--red);
+    font-weight: 900;
+    align-self: flex-start;
+    padding-top: 12px;
+  }
+
+  /* ─── FINAL CTA SECTION ─── */
+  .final-cta-section {
+    padding: 120px 0 80px;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
     text-align: center;
     position: relative;
-    background: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2564&auto=format&fit=crop') center/cover no-repeat;
   }
-  .final-cta::after {
+
+  .final-cta-section::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(0deg, var(--black) 10%, rgba(8,8,8,0.7) 100%);
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 60%);
     pointer-events: none;
   }
-  .final-cta > * {
+
+  .final-cta-content {
     position: relative;
     z-index: 1;
   }
-  .final-cta::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+
+  .final-cta-content .section-label { margin-bottom: 16px; }
+
+  .final-cta-content h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 24px;
   }
+
+  .final-cta-content > p {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  .final-cta-content strong { color: var(--text); }
 
   /* ─── FOOTER ─── */
   footer {
-    padding: 40px 24px;
+    padding: 40px 0;
     text-align: center;
-    border-top: 1px solid var(--border);
+    background: var(--secondary);
+    border-top: 1px solid rgba(255,255,255,0.05);
   }
-  footer p { font-size: 13px; color: var(--muted); }
 
-  /* ─── SCROLL REVEAL (JS Handled) ─── */
-  .reveal, .badge, .hero-eyebrow, .hero-sub, .hero-cta { opacity: 0; }
+  footer p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
 
   /* ─── ANIMATIONS ─── */
-  @keyframes pulse-gold {
-    0%, 100% { box-shadow: 0 0 40px rgba(201,168,76,0.3); }
-    50% { box-shadow: 0 0 70px rgba(201,168,76,0.6); }
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
   }
 
-  .pulse { animation: pulse-gold 3s ease infinite; }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4); }
+    50% { box-shadow: 0 4px 30px rgba(59, 130, 246, 0.6); }
+  }
 
-  /* ─── HIGHLIGHT BOX ─── */
-  .highlight-box {
-    background: rgba(201,168,76,0.06);
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 12px;
-    padding: 32px 36px;
-    margin: 48px 0;
-    position: relative;
-  }
-  .highlight-box::before {
-    content: '';
-    position: absolute;
-    top: -24px; left: 24px;
-    width: 48px; height: 48px;
-    background: var(--gold) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>') center/24px no-repeat;
-    border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(201,168,76,0.3);
-  }
-  .highlight-box p {
-    font-size: 18px;
-    font-style: italic;
-    color: rgba(245,240,232,0.85);
-    line-height: 1.7;
-  }
-  .highlight-box p strong { color: var(--gold); font-style: normal; }
+  .pulse { animation: pulse 2s ease infinite; }
 
   /* ─── RESPONSIVE ─── */
-  @media (max-width: 1200px) {
-    .hero-grid { gap: 40px; }
-  }
-  @media (max-width: 992px) {
-    .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 48px; }
-    .hero-content { align-items: center; text-align: center; }
-    .hero h1, .hero-sub { text-align: center; margin-left: auto; margin-right: auto; }
-    .hero-cta { align-items: center; }
-    .hero-image { max-width: 450px; margin: 0 auto; }
-    .book-inner { text-align: center; }
-    .chapters { grid-template-columns: 1fr; }
-    .book-image { display: none; }
-  }
-  @media (max-width: 768px) {
-    .hero-image { max-width: 100%; }
-    .pain-section-grid { grid-template-columns: 1fr; gap: 48px; }
-    .pain-image { min-height: 300px; }
+  @media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero-content { text-align: center; }
+    .hero-description { margin: 0 auto 32px; }
+    .hero-actions { margin: 0 auto; }
+    .hero-trust { justify-content: center; }
+    .hero-visual { order: -1; }
+    .hero-image-wrapper img { max-width: 360px; transform: none; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .solution-card { grid-template-columns: 1fr; }
+    .solution-visual { order: -1; }
     .transform-grid { grid-template-columns: 1fr; }
-    .objection-grid { grid-template-columns: 1fr; }
+    .objections-grid { grid-template-columns: 1fr; }
     .testimonials-grid { grid-template-columns: 1fr; }
-    .price-box { padding: 40px 28px; }
-    .sticky-bar { flex-wrap: wrap; gap: 12px; text-align: center; }
-    .countdown { gap: 6px; }
-    .count-block { min-width: 48px; padding: 8px 10px; }
-    .count-num { font-size: 20px; }
+    .urgency-card { justify-content: center; text-align: center; }
   }
 
-  /* ─── CENTER HELPER ─── */
-  .text-center { text-align: center; }
-  .max-640 { max-width: 640px; margin-left: auto; margin-right: auto; }
-  .max-800 { max-width: 800px; margin-left: auto; margin-right: auto; }
+  @media (max-width: 768px) {
+    .hero { padding: 100px 0 60px; }
+    .hero-image-wrapper img { max-width: 280px; }
+    .hero-stats { position: relative; bottom: 0; transform: none; left: 0; margin-top: 32px; justify-content: center; }
+    .social-proof-inner { gap: 32px; }
+    .solution-card { padding: 40px 24px; }
+    .book-mockup { width: 200px; }
+    .pricing-card { padding: 32px 24px; }
+    .sticky-header-text { display: none; }
+  }
 </style>
 </head>
 <body>
 
-<!-- LOADER & CURSOR -->
-<div class="loader" id="loader">
-  <div class="loader-text">A Inicializar</div>
-  <div class="loader-progress" id="loaderProgress"></div>
-</div>
-<div class="cursor" id="customCursor"></div>
-
-<!-- STICKY BAR -->
-<div class="sticky-bar" id="stickyBar">
-  <span style="display:flex;align-items:center;gap:6px;"><i data-lucide="flame" style="width:16px;height:16px;color:var(--red)"></i> Oferta por tempo limitado — Garante o teu acesso agora</span>
-  <a href="https://pay.kikoloonline.com/?p_id=6841b3548a2661b1a103fc3a">Quero Transformar o Meu NÃO em SIM →</a>
+<!-- STICKY HEADER -->
+<div class="sticky-header" id="stickyHeader">
+  <div class="container sticky-header-inner">
+    <div class="sticky-header-text">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      Acesso Imediato Garantido
+    </div>
+    <a href="#preco" class="sticky-header-cta">Quero o Meu Acesso Agora →</a>
+  </div>
 </div>
 
-<!-- ════════════════════════ HERO ════════════════════════ -->
+<!-- HERO SECTION -->
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-lines"></div>
-
-  <div class="hero-grid">
-    <div class="hero-content">
-      <div class="badge"><i data-lucide="book" style="width:16px;height:16px;"></i> eBook de Vendas #1</div>
-      <p class="hero-eyebrow">Método Comprovado de Conversão</p>
-      <h1>
-        Transforma o <span class="red">NÃO</span><br>
-        do Cliente em <span class="gold">SIM</span>
-      </h1>
-      <p class="hero-sub">
-        Descobre a arte de quebrar qualquer objeção com <strong>elegância, estratégia e confiança</strong> — sem pressão, sem scripts robóticos, sem perder o cliente no processo.
-      </p>
-      <div class="hero-cta">
-        <div style="display:flex; gap:16px; flex-wrap:wrap;">
-          <a href="#preco" class="btn-primary pulse">
-            Quero o Meu eBook Agora →
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          eBook de Vendas #1
+        </div>
+        <p class="hero-eyebrow">Método Comprovado de Conversão</p>
+        <h1>
+          Transforma o <span class="highlight-red">NÃO</span><br>
+          do Cliente em <span class="highlight">SIM</span>
+        </h1>
+        <p class="hero-description">
+          Descobre a arte de quebrar qualquer objeção com <strong>elegância, estratégia e confiança</strong> — sem pressão, sem scripts robóticos, sem perder o cliente no processo.
+        </p>
+        <div class="hero-actions">
+          <a href="#preco" class="btn-primary-large pulse">
+            Quero o Meu eBook Agora
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
-          <a href="#preco" class="btn-primary" style="background:transparent; border:1px solid var(--gold); color:var(--gold); box-shadow:none;">
+          <a href="#preco" class="btn-secondary">
             Ver Preço e Bónus
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
           </a>
         </div>
-        <p class="hero-guarantee" style="display:flex;align-items:center;gap:6px;">
-          <i data-lucide="shield-check" style="width:16px;height:16px;color:var(--gold)"></i>
-          Compra 100% segura · Acesso imediato
-        </p>
+        <div class="hero-trust">
+          <div class="trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Compra 100% Segura
+          </div>
+          <div class="trust-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Acesso Imediato
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="hero-image reveal">
-      <img src="ebook.png" alt="Capa do eBook Da Defesa ao SIM">
-      <div class="book-glow"></div>
+      <div class="hero-visual">
+        <div class="hero-glow"></div>
+        <div class="hero-image-wrapper">
+          <img src="ebook.png" alt="Capa do eBook Da Defesa ao SIM">
+        </div>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <div class="stat-number">10</div>
+            <div class="stat-label">Capítulos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">21+</div>
+            <div class="stat-label">Frases Prontas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">7</div>
+            <div class="stat-label">Objeções Mapeadas</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<!-- SOCIAL PROOF BAR -->
+<section class="social-proof-bar">
+  <div class="container social-proof-inner">
+    <div class="proof-item">
+      <div class="proof-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="proof-text">
+        <strong>+500</strong>
+        <span>Vendas impactadas</span>
+      </div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <div class="proof-text">
+        <strong>4.9/5</strong>
+        <span>Avaliação média</span>
+      </div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="proof-text">
+        <strong>70+</strong>
+        <span>Páginas de conteúdo</span>
+      </div>
+    </div>
+    <div class="proof-item">
+      <div class="proof-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <div class="proof-text">
+        <strong>100%</strong>
+        <span>Satisfação garantida</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- ════════════════════════ PAIN ════════════════════════ -->
-<div class="section-wide pain-section-grid">
-  <div class="pain-content">
-    <div class="reveal">
-      <p class="section-label">Identifica-te com isto?</p>
-      <h2>Achas que o problema és <span class="red">tu?</span></h2>
-      <p class="lead">
+<!-- PROBLEM SECTION -->
+<section class="problem-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        Identifica-te com isto?
+      </p>
+      <h2 class="section-title">Achas que o problema és <span class="highlight-red">tu?</span></h2>
+      <p class="section-subtitle">
         Nada disso. O problema é que <strong>ninguém te ensinou a lidar com objeções de forma estratégica.</strong> Foste treinado para vender, mas não para conversar.
       </p>
     </div>
 
-    <div class="pain-list reveal">
-      <div class="pain-item">
-        <span class="icon">😰</span>
-        <p><strong>Congelas quando o cliente diz "está caro"</strong> — e não sabes o que responder sem soar desesperado.</p>
-      </div>
-      <div class="pain-item">
-        <span class="icon">🤐</span>
-        <p><strong>Perdes oportunidades com "vou pensar"</strong> — aceitas o "não" como definitivo quando na verdade é uma dúvida.</p>
-      </div>
-      <div class="pain-item">
-        <span class="icon">🤦‍♂️</span>
-        <p><strong>Rebates objeções com pressa</strong> — e o cliente fecha ainda mais, sentindo que não está sendo ouvido.</p>
-      </div>
-      <div class="pain-item">
-        <span class="icon">📉</span>
-        <p><strong>Fazes descontos sem necessidade</strong> — porque não sabes demonstrar valor suficiente para justificar o preço.</p>
-      </div>
-      <div class="pain-item">
-        <span class="icon">💸</span>
-        <p><strong>Sais de negociações a sentir que perdeste</strong> — mesmo tendo o melhor produto e a proposta mais completa.</p>
-      </div>
-    </div>
-
-    <div class="highlight-box reveal">
-      <p>
-        O "NÃO" do cliente <strong>nunca é o fim da conversa.</strong> É o começo dela. Cada objeção esconde uma necessidade. <strong>Lê isso e a venda é inevitável.</strong>
-      </p>
-    </div>
-    <div class="reveal" style="margin-top: 32px;">
-      <a href="#preco" class="btn-primary" style="font-size:15px; padding: 16px 32px;">Quero Aprender a Vencer o NÃO →</a>
-    </div>
-  </div>
-  <div class="pain-image reveal">
-    <img src="2.png" alt="Transformação de resultados">
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- ════════════════════════ BOOK ════════════════════════ -->
-<section class="book-section">
-  <div class="book-inner">
-    <div class="book-content reveal" style="max-width: 1000px; margin: 0 auto;">
-      <p class="section-label" style="text-align: center;">O que está dentro do eBook</p>
-      <h2 style="text-align: center;">10 Capítulos. <span class="gold">1 Transformação.</span></h2>
-      <p class="lead" style="margin-bottom: 24px; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">
-        Cada capítulo foi construído para te dar ferramentas reais — não teoria vazia — que funcionam tanto no presencial quanto no digital.
-      </p>
-
-      <div class="chapters">
-        <div class="chapter-item">
-          <span class="chapter-num">CAP 1</span>
-          <span class="chapter-text">O que está por trás do NÃO — entendendo objeções reais e ocultas</span>
+    <div class="problem-grid">
+      <div class="problem-list">
+        <div class="problem-card reveal">
+          <div class="problem-icon">😰</div>
+          <p class="problem-text"><strong>Congelas quando o cliente diz "está caro"</strong> — e não sabes o que responder sem soar desesperado.</p>
         </div>
-        <div class="chapter-item">
-          <span class="chapter-num">CAP 2</span>
-          <span class="chapter-text">Os 7 erros fatais que fazem o vendedor perder a venda mesmo tendo o melhor produto</span>
+        <div class="problem-card reveal">
+          <div class="problem-icon">🤐</div>
+          <p class="problem-text"><strong>Perdes oportunidades com "vou pensar"</strong> — aceitas o "não" como definitivo quando na verdade é uma dúvida.</p>
         </div>
-        <div class="chapter-item">
-          <span class="chapter-num">CAP 3</span>
-          <span class="chapter-text">O mapa das 7 objeções mais comuns e como vencê-las com elegância</span>
+        <div class="problem-card reveal">
+          <div class="problem-icon">🤦‍♂️</div>
+          <p class="problem-text"><strong>Rebates objeções com pressa</strong> — e o cliente fecha ainda mais, sentindo que não está sendo ouvido.</p>
         </div>
-        <div class="chapter-item">
-          <span class="chapter-num">CAP 4</span>
-          <span class="chapter-text">As 5 fases para contornar qualquer objeção — o método completo</span>
+        <div class="problem-card reveal">
+          <div class="problem-icon">📉</div>
+          <p class="problem-text"><strong>Fazes descontos sem necessidade</strong> — porque não sabes demonstrar valor suficiente para justificar o preço.</p>
         </div>
-        <div class="chapter-item">
-          <span class="chapter-num">CAP 5</span>
-          <span class="chapter-text">O poder das perguntas certas — como guiar o cliente ao SIM sem pressão</span>
-        </div>
-        <div class="chapter-item">
-          <span class="chapter-num">CAP 6</span>
-          <span class="chapter-text">A mente do fechador: postura, controle emocional e calma estratégica</span>
-        </div>
-        <div class="chapter-item">
-          <span class="chapter-num">CAP 7</span>
-          <span class="chapter-text">Objeções no digital: WhatsApp, direct, e-mail e páginas de vendas</span>
-        </div>
-        <div class="chapter-item">
-          <span class="chapter-num">CAP 8</span>
-          <span class="chapter-text">Objeções no B2B: como vender para comités e tomadores de decisão</span>
-        </div>
-        <div class="chapter-item">
-          <span class="chapter-num">CAP 9</span>
-          <span class="chapter-text">Vendendo com histórias: provas, cases e narrativas que quebram objeções</span>
-        </div>
-        <div class="chapter-item">
-          <span class="chapter-num">CAP 10</span>
-          <span class="chapter-text">O fechamento que nasce da confiança — como transformar clientes em defensores</span>
+        <div class="problem-card reveal">
+          <div class="problem-icon">💸</div>
+          <p class="problem-text"><strong>Sais de negociações a sentir que perdeste</strong> — mesmo tendo o melhor produto e a proposta mais completa.</p>
         </div>
       </div>
-      <div style="margin-top: 48px; text-align: center;">
-        <a href="#preco" class="btn-primary">Garantir o Meu Acesso aos 10 Capítulos →</a>
+      <div class="problem-image reveal">
+        <img src="2.png" alt="Transformação de resultados">
+        <div class="problem-image-overlay"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════ TRANSFORM ════════════════════════ -->
+<!-- SOLUTION / BOOK SECTION -->
+<section class="solution-section">
+  <div class="container">
+    <div class="solution-card reveal">
+      <div class="solution-visual">
+        <div class="book-mockup">
+          <div class="book-title">Da Defesa<br>ao SIM</div>
+          <div class="book-subtitle">A Arte de Transformar o NÃO</div>
+          <div class="book-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="solution-content">
+        <h2>10 Capítulos. <span class="highlight">1 Transformação.</span></h2>
+        <p>Cada capítulo foi construído para te dar ferramentas reais — não teoria vazia — que funcionam tanto no presencial quanto no digital.</p>
+        <div class="chapters-list">
+          <div class="chapter-item">
+            <span class="chapter-num">CAP 1</span>
+            <span class="chapter-text">O que está por trás do NÃO — entendendo objeções reais e ocultas</span>
+          </div>
+          <div class="chapter-item">
+            <span class="chapter-num">CAP 2</span>
+            <span class="chapter-text">Os 7 erros fatais que fazem o vendedor perder a venda mesmo tendo o melhor produto</span>
+          </div>
+          <div class="chapter-item">
+            <span class="chapter-num">CAP 3</span>
+            <span class="chapter-text">O mapa das 7 objeções mais comuns e como vencê-las com elegância</span>
+          </div>
+          <div class="chapter-item">
+            <span class="chapter-num">CAP 4</span>
+            <span class="chapter-text">As 5 fases para contornar qualquer objeção — o método completo</span>
+          </div>
+          <div class="chapter-item">
+            <span class="chapter-num">CAP 5</span>
+            <span class="chapter-text">O poder das perguntas certas — como guiar o cliente ao SIM sem pressão</span>
+          </div>
+          <div class="chapter-item">
+            <span class="chapter-num">CAP 6</span>
+            <span class="chapter-text">A mente do fechador: postura, controle emocional e calma estratégica</span>
+          </div>
+          <div class="chapter-item">
+            <span class="chapter-num">CAP 7</span>
+            <span class="chapter-text">Objeções no digital: WhatsApp, direct, e-mail e páginas de vendas</span>
+          </div>
+          <div class="chapter-item">
+            <span class="chapter-num">CAP 8</span>
+            <span class="chapter-text">Objeções no B2B: como vender para comités e tomadores de decisão</span>
+          </div>
+          <div class="chapter-item">
+            <span class="chapter-num">CAP 9</span>
+            <span class="chapter-text">Vendendo com histórias: provas, cases e narrativas que quebram objeções</span>
+          </div>
+          <div class="chapter-item">
+            <span class="chapter-num">CAP 10</span>
+            <span class="chapter-text">O fechamento que nasce da confiança — como transformar clientes em defensores</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSFORMATION SECTION -->
 <section class="transform-section">
-  <div class="text-center reveal max-640" style="margin: 0 auto;">
-    <p class="section-label">O que vais ganhar</p>
-    <h2>Uma mudança <span class="gold">imediata</span> na forma como fechas vendas</h2>
-  </div>
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        O que vais ganhar
+      </p>
+      <h2 class="section-title">Uma mudança <span class="highlight">imediata</span> na forma como fechas vendas</h2>
+    </div>
 
-  <div class="transform-grid reveal">
-    <div class="transform-card">
-      <span class="transform-emoji"><i data-lucide="target"></i></span>
-      <div class="transform-num">7</div>
-      <div class="transform-label">Objeções mapeadas com resposta estratégica para cada uma</div>
+    <div class="transform-grid">
+      <div class="transform-card reveal">
+        <div class="transform-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div class="transform-number">7</div>
+        <div class="transform-label">Objeções mapeadas com resposta estratégica para cada uma</div>
+      </div>
+      <div class="transform-card reveal">
+        <div class="transform-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="transform-number">21</div>
+        <div class="transform-label">Frases prontas para contornar objeções no momento certo</div>
+      </div>
+      <div class="transform-card reveal">
+        <div class="transform-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M20 12a8 8 0 0 0-8-8v8h8z"/></svg>
+        </div>
+        <div class="transform-number">5</div>
+        <div class="transform-label">Fases comprovadas para conduzir qualquer resistência ao SIM</div>
+      </div>
     </div>
-    <div class="transform-card">
-      <span class="transform-emoji"><i data-lucide="zap"></i></span>
-      <div class="transform-num">21</div>
-      <div class="transform-label">Frases prontas para contornar objeções no momento certo</div>
+  </div>
+</section>
+
+<!-- OBJECTIONS SECTION -->
+<section class="objections-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        Quebra de objeções
+      </p>
+      <h2 class="section-title">Ouves estas frases e <span class="highlight-red">trava</span>?</h2>
+      <p class="section-subtitle">Com este eBook, cada objeção torna-se uma oportunidade de aprofundar a confiança e aproximar o cliente do SIM.</p>
     </div>
-    <div class="transform-card">
-      <span class="transform-emoji"><i data-lucide="brain"></i></span>
-      <div class="transform-num">5</div>
-      <div class="transform-label">Fases comprovadas para conduzir qualquer resistência ao SIM</div>
+
+    <div class="objections-grid">
+      <div class="objection-card reveal">
+        <div class="objection-question">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg></span>
+          <p>"Está <em>caro</em>. Não tenho orçamento para isso."</p>
+        </div>
+        <div class="objection-answer">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+          <p>Aprendes a recontextualizar o valor, projetar ROI real e apresentar opções sem parecer desesperado. <strong>O preço nunca mais será a razão para perder a venda.</strong></p>
+        </div>
+      </div>
+
+      <div class="objection-card reveal">
+        <div class="objection-question">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg></span>
+          <p>"Vou <em>pensar</em> e depois digo alguma coisa."</p>
+        </div>
+        <div class="objection-answer">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+          <p>Aprendes a identificar a dúvida oculta por trás do "vou pensar" e a fazer a pergunta certa que revela o verdadeiro bloqueio. <strong>Sem pressão. Com inteligência.</strong></p>
+        </div>
+      </div>
+
+      <div class="objection-card reveal">
+        <div class="objection-question">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg></span>
+          <p>"Já tenho um <em>fornecedor</em>. Estamos bem assim."</p>
+        </div>
+        <div class="objection-answer">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+          <p>Aprendes a diferenciar sem desmerecer o concorrente e a propor um piloto comparativo que o cliente não consegue recusar. <strong>Lealdade não é barreira. É oportunidade.</strong></p>
+        </div>
+      </div>
+
+      <div class="objection-card reveal">
+        <div class="objection-question">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg></span>
+          <p>"Preciso de falar com o meu <em>sócio</em> primeiro."</p>
+        </div>
+        <div class="objection-answer">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+          <p>Aprendes a incluir o sócio no processo sem perder o controlo da negociação e a preparar material que fecha por ti. <strong>Nunca mais ficas refém de terceiros.</strong></p>
+        </div>
+      </div>
+
+      <div class="objection-card reveal">
+        <div class="objection-question">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg></span>
+          <p>"<em>Agora</em> não é o momento certo."</p>
+        </div>
+        <div class="objection-answer">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+          <p>Aprendes a mapear a janela ideal e a mostrar o custo do adiamento de forma concreta. <strong>O "agora não" transforma-se em "como começamos?".</strong></p>
+        </div>
+      </div>
+
+      <div class="objection-card reveal">
+        <div class="objection-question">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6"/><path d="M9 9l6 6"/></svg></span>
+          <p>"Não <em>conheço</em> a vossa empresa. Não sei se confio."</p>
+        </div>
+        <div class="objection-answer">
+          <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+          <p>Aprendes a construir autoridade em segundos com provas sociais relevantes e storytelling estratégico. <strong>Credibilidade que convence sem que pareças arrogante.</strong></p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════ OBJECTIONS BREAKING ════════════════════════ -->
-<section class="objection-section">
-  <div class="text-center reveal max-800" style="margin: 0 auto;">
-    <p class="section-label">Quebra de objeções</p>
-    <h2>Ouves estas frases e <span class="red">trava</span>?</h2>
-    <p class="lead">Com este eBook, cada objeção torna-se uma oportunidade de aprofundar a confiança e aproximar o cliente do SIM.</p>
-  </div>
-
-  <div class="objection-grid">
-
-    <div class="objection-card reveal reveal-delay-1">
-      <div class="obj-top">
-        <span class="icon"><i data-lucide="x-circle"></i></span>
-        <p class="obj-question">"Está <em>caro</em>. Não tenho orçamento para isso."</p>
-      </div>
-      <div class="obj-bottom">
-        <span class="icon"><i data-lucide="check-circle-2"></i></span>
-        <p class="obj-answer">Aprendes a recontextualizar o valor, projetar ROI real e apresentar opções sem parecer desesperado. <strong>O preço nunca mais será a razão para perder a venda.</strong></p>
-      </div>
-    </div>
-
-    <div class="objection-card reveal reveal-delay-2">
-      <div class="obj-top">
-        <span class="icon"><i data-lucide="x-circle"></i></span>
-        <p class="obj-question">"Vou <em>pensar</em> e depois digo alguma coisa."</p>
-      </div>
-      <div class="obj-bottom">
-        <span class="icon"><i data-lucide="check-circle-2"></i></span>
-        <p class="obj-answer">Aprendes a identificar a dúvida oculta por trás do "vou pensar" e a fazer a pergunta certa que revela o verdadeiro bloqueio. <strong>Sem pressão. Com inteligência.</strong></p>
-      </div>
-    </div>
-
-    <div class="objection-card reveal reveal-delay-1">
-      <div class="obj-top">
-        <span class="icon"><i data-lucide="x-circle"></i></span>
-        <p class="obj-question">"Já tenho um <em>fornecedor</em>. Estamos bem assim."</p>
-      </div>
-      <div class="obj-bottom">
-        <span class="icon"><i data-lucide="check-circle-2"></i></span>
-        <p class="obj-answer">Aprendes a diferenciar sem desmerecer o concorrente e a propor um piloto comparativo que o cliente não consegue recusar. <strong>Lealdade não é barreira. É oportunidade.</strong></p>
-      </div>
-    </div>
-
-    <div class="objection-card reveal reveal-delay-2">
-      <div class="obj-top">
-        <span class="icon"><i data-lucide="x-circle"></i></span>
-        <p class="obj-question">"Preciso de falar com o meu <em>sócio</em> primeiro."</p>
-      </div>
-      <div class="obj-bottom">
-        <span class="icon"><i data-lucide="check-circle-2"></i></span>
-        <p class="obj-answer">Aprendes a incluir o sócio no processo sem perder o controlo da negociação e a preparar material que fecha por ti. <strong>Nunca mais ficas refém de terceiros.</strong></p>
-      </div>
-    </div>
-
-    <div class="objection-card reveal reveal-delay-1">
-      <div class="obj-top">
-        <span class="icon"><i data-lucide="x-circle"></i></span>
-        <p class="obj-question">"<em>Agora</em> não é o momento certo."</p>
-      </div>
-      <div class="obj-bottom">
-        <span class="icon"><i data-lucide="check-circle-2"></i></span>
-        <p class="obj-answer">Aprendes a mapear a janela ideal e a mostrar o custo do adiamento de forma concreta. <strong>O "agora não" transforma-se em "como começamos?".</strong></p>
-      </div>
-    </div>
-
-    <div class="objection-card reveal reveal-delay-2">
-      <div class="obj-top">
-        <span class="icon"><i data-lucide="x-circle"></i></span>
-        <p class="obj-question">"Não <em>conheço</em> a vossa empresa. Não sei se confio."</p>
-      </div>
-      <div class="obj-bottom">
-        <span class="icon"><i data-lucide="check-circle-2"></i></span>
-        <p class="obj-answer">Aprendes a construir autoridade em segundos com provas sociais relevantes e storytelling estratégico. <strong>Credibilidade que convence sem que pareças arrogante.</strong></p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ════════════════════════ TESTIMONIALS ════════════════════════ -->
+<!-- TESTIMONIALS SECTION -->
 <section class="testimonials-section">
-  <div class="text-center reveal max-640" style="margin: 0 auto;">
-    <p class="section-label">Resultados reais</p>
-    <h2>O que dizem quem já aplicou <span class="gold">o método</span></h2>
-  </div>
-
-  <div class="testimonials-grid">
-
-    <div class="testimonial-card reveal reveal-delay-1">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">
-        "Antes eu perdia venda após venda no momento do preço. Depois de aplicar as técnicas deste eBook, fechei 3 contratos seguidos sem dar um único desconto. <strong>Simplesmente mudou tudo.</strong>"
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Resultados reais
       </p>
-      <div class="testimonial-author">
-        <div class="author-avatar">JM</div>
-        <div>
-          <div class="author-name">João Mendes</div>
-          <div class="author-role">Consultor Comercial · Luanda</div>
+      <h2 class="section-title">O que dizem quem já aplicou <span class="highlight">o método</span></h2>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "Antes eu perdia venda após venda no momento do preço. Depois de aplicar as técnicas deste eBook, fechei 3 contratos seguidos sem dar um único desconto. <strong>Simplesmente mudou tudo.</strong>"
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">JM</div>
+          <div>
+            <div class="author-name">João Mendes</div>
+            <div class="author-role">Consultor Comercial · Luanda</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="testimonial-card reveal reveal-delay-2">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">
-        "Trabalhava em vendas digitais e os clientes simplesmente sumiam depois de receber proposta. Aprendi a fazer follow-up estratégico e a reconhecer sinais de compra. <strong>A minha taxa de conversão duplicou em 6 semanas.</strong>"
-      </p>
-      <div class="testimonial-author">
-        <div class="author-avatar">AC</div>
-        <div>
-          <div class="author-name">Ana Carvalho</div>
-          <div class="author-role">Gestora de Tráfego Pago · Lisboa</div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "Trabalhava em vendas digitais e os clientes simplesmente sumiam depois de receber proposta. Aprendi a fazer follow-up estratégico e a reconhecer sinais de compra. <strong>A minha taxa de conversão duplicou em 6 semanas.</strong>"
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AC</div>
+          <div>
+            <div class="author-name">Ana Carvalho</div>
+            <div class="author-role">Gestora de Tráfego Pago · Lisboa</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="testimonial-card reveal reveal-delay-3">
-      <div class="stars">★★★★★</div>
-      <p class="testimonial-text">
-        "Aplico em vendas B2B há 4 anos. Achei que já sabia tudo sobre objeções. Este eBook mostrou-me erros que eu cometia todos os dias sem perceber. <strong>Indispensável para qualquer vendedor sério.</strong>"
-      </p>
-      <div class="testimonial-author">
-        <div class="author-avatar">RS</div>
-        <div>
-          <div class="author-name">Ricardo Santos</div>
-          <div class="author-role">Diretor Comercial · Porto</div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">
+          "Aplico em vendas B2B há 4 anos. Achei que já sabia tudo sobre objeções. Este eBook mostrou-me erros que eu cometia todos os dias sem perceber. <strong>Indispensável para qualquer vendedor sério.</strong>"
+        </p>
+        <div class="testimonial-author">
+          <div class="author-avatar">RS</div>
+          <div>
+            <div class="author-name">Ricardo Santos</div>
+            <div class="author-role">Diretor Comercial · Porto</div>
+          </div>
         </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ════════════════════════ PRICE ════════════════════════ -->
-<section class="price-section" id="preco">
-  <div class="text-center reveal max-640" style="margin: 0 auto 48px;">
-    <p class="section-label">Oferta especial de lançamento</p>
-    <h2>Investe em ti antes que o <span class="red">cliente</span> decida por outro</h2>
-    <p class="lead">Uma única vez. Acesso imediato. Resultado para sempre.</p>
-  </div>
-
-  <div class="price-box reveal">
-    <div class="price-tag" style="display:inline-flex;align-items:center;gap:6px;"><i data-lucide="flame" style="width:14px;height:14px;"></i> Oferta por Tempo Limitado</div>
-
-    <div class="price-old">De 9.900 Kz</div>
-    <div class="price-current">6.000<span style="font-size:32px;"> Kz</span></div>
-    <div class="price-note">Pagamento único · Acesso vitalício</div>
-
-    <div class="price-features">
-      <div class="price-feature">
-        <span class="check">✦</span>
-        <span><strong>eBook completo</strong> — Da Defesa ao SIM (70+ páginas)</span>
-      </div>
-      <div class="price-feature">
-        <span class="check">✦</span>
-        <span><strong>10 capítulos</strong> com estratégias aplicáveis imediatamente</span>
-      </div>
-      <div class="price-feature">
-        <span class="check">✦</span>
-        <span><strong>21 frases prontas</strong> para contornar objeções na hora</span>
-      </div>
-      <div class="price-feature">
-        <span class="check">✦</span>
-        <span><strong>Scripts testados</strong> para WhatsApp, direct e e-mail</span>
-      </div>
-      <div class="price-feature">
-        <span class="check">✦</span>
-        <span><strong>Mapa completo</strong> das 7 objeções mais comuns + respostas estratégicas</span>
-      </div>
-      <div class="price-feature">
-        <span class="check">✦</span>
-        <span><strong>Acesso imediato</strong> após confirmação do pagamento</span>
-      </div>
-    </div>
-
-    <a href="https://pay.kikoloonline.com/?p_id=6841b3548a2661b1a103fc3a" class="btn-buy">
-      Quero o Meu eBook Agora →
-    </a>
-
-    <div class="guarantee-row">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Compra 100% segura e protegida
-    </div>
-    <div class="guarantee-row" style="margin-top: 8px;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-      Dados encriptados · Pagamento seguro
-    </div>
-  </div>
-
-  <div class="urgency-bar reveal">
-    <p class="urgency-text" style="display:flex;align-items:center;gap:6px;justify-content:center;"><i data-lucide="clock" style="width:16px;height:16px;color:var(--red)"></i> Esta oferta expira em: <strong>preço sobe em breve</strong></p>
-    <div class="countdown">
-      <div class="count-block">
-        <span class="count-num" id="hours">23</span>
-        <span class="count-label">Horas</span>
-      </div>
-      <span class="count-sep">:</span>
-      <div class="count-block">
-        <span class="count-num" id="minutes">59</span>
-        <span class="count-label">Min</span>
-      </div>
-      <span class="count-sep">:</span>
-      <div class="count-block">
-        <span class="count-num" id="seconds">00</span>
-        <span class="count-label">Seg</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════ FINAL CTA ════════════════════════ -->
-<section class="final-cta">
-  <div class="reveal max-640" style="margin: 0 auto;">
-    <p class="section-label">A decisão é tua</p>
-    <h2 style="margin-bottom: 24px;">Continuas a perder vendas<br>ou aprendes a <span class="gold">fechá-las?</span></h2>
-    <p class="lead" style="margin-bottom: 40px;">
-      O próximo cliente que te disser "não" pode ser o próximo cliente que diz <strong>"SIM"</strong> — se tiveres as ferramentas certas.
-    </p>
-    <a href="#preco" class="btn-primary pulse" style="font-size:16px; padding: 20px 40px;">
-      Transformar o Meu NÃO em SIM Agora →
-    </a>
-    <p style="font-size:13px; color: var(--muted); margin-top: 20px;">
-      Acesso imediato · Pagamento único · Sem mensalidades
-    </p>
+<!-- PRICING SECTION -->
+<section class="pricing-section" id="preco">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Oferta especial de lançamento
+      </p>
+      <h2 class="section-title">Investe em ti antes que o <span class="highlight-red">cliente</span> decida por outro</h2>
+      <p class="section-subtitle">Uma única vez. Acesso imediato. Resultado para sempre.</p>
+    </div>
+
+    <div class="pricing-card reveal">
+      <div class="pricing-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+        Oferta por Tempo Limitado
+      </div>
+
+      <div class="pricing-old">De 9.900 Kz</div>
+      <div class="pricing-current">6.000 <span>Kz</span></div>
+      <div class="pricing-note">Pagamento único · Acesso vitalício</div>
+
+      <div class="pricing-features">
+        <div class="pricing-feature">
+          <span class="check">✦</span>
+          <span><strong>eBook completo</strong> — Da Defesa ao SIM (70+ páginas)</span>
+        </div>
+        <div class="pricing-feature">
+          <span class="check">✦</span>
+          <span><strong>10 capítulos</strong> com estratégias aplicáveis imediatamente</span>
+        </div>
+        <div class="pricing-feature">
+          <span class="check">✦</span>
+          <span><strong>21 frases prontas</strong> para contornar objeções na hora</span>
+        </div>
+        <div class="pricing-feature">
+          <span class="check">✦</span>
+          <span><strong>Scripts testados</strong> para WhatsApp, direct e e-mail</span>
+        </div>
+        <div class="pricing-feature">
+          <span class="check">✦</span>
+          <span><strong>Mapa completo</strong> das 7 objeções mais comuns + respostas estratégicas</span>
+        </div>
+        <div class="pricing-feature">
+          <span class="check">✦</span>
+          <span><strong>Acesso imediato</strong> após confirmação do pagamento</span>
+        </div>
+      </div>
+
+      <a href="https://pay.kikoloonline.com/?p_id=6841b3548a2661b1a103fc3a" class="btn-buy-large pulse">
+        Quero o Meu eBook Agora →
+      </a>
+
+      <div class="pricing-guarantee">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Compra 100% segura e protegida
+      </div>
+      <div class="pricing-guarantee" style="margin-top: 10px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Dados encriptados · Pagamento seguro
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ════════════════════════ FOOTER ════════════════════════ -->
+<!-- URGENCY SECTION -->
+<section class="urgency-section">
+  <div class="container">
+    <div class="urgency-card reveal">
+      <div class="urgency-text">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Esta oferta expira em: <strong>preço sobe em breve</strong>
+      </div>
+      <div class="countdown">
+        <div class="countdown-item">
+          <span class="countdown-number" id="hours">23</span>
+          <span class="countdown-label">Horas</span>
+        </div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-item">
+          <span class="countdown-number" id="minutes">59</span>
+          <span class="countdown-label">Min</span>
+        </div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-item">
+          <span class="countdown-number" id="seconds">00</span>
+          <span class="countdown-label">Seg</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA SECTION -->
+<section class="final-cta-section">
+  <div class="container-narrow">
+    <div class="final-cta-content reveal">
+      <p class="section-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        A decisão é tua
+      </p>
+      <h2>Continuas a perder vendas<br>ou aprendes a <span class="highlight">fechá-las?</span></h2>
+      <p>O próximo cliente que te disser "não" pode ser o próximo cliente que diz <strong>"SIM"</strong> — se tiveres as ferramentas certas.</p>
+      <a href="#preco" class="btn-primary-large pulse" style="display: inline-flex; margin: 0 auto;">
+        Transformar o Meu NÃO em SIM Agora →
+      </a>
+      <p style="font-size: 13px; color: var(--text-muted); margin-top: 20px;">
+        Acesso imediato · Pagamento único · Sem mensalidades
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <p>© 2025 Da Defesa ao SIM · Todos os direitos reservados</p>
-  <p style="margin-top: 8px;">Os resultados mencionados são de utilizadores reais e podem variar conforme a aplicação individual.</p>
+  <div class="container">
+    <p>© 2025 Da Defesa ao SIM · Todos os direitos reservados</p>
+    <p style="margin-top: 8px;">Os resultados mencionados são de utilizadores reais e podem variar conforme a aplicação individual.</p>
+  </div>
 </footer>
 
 <script>
@@ -1464,151 +1687,39 @@ src="https://www.facebook.com/tr?id=904199165970469&ev=PageView&noscript=1"
   }
   requestAnimationFrame(raf);
 
-  // Integrate Lenis with ScrollTrigger
   gsap.registerPlugin(ScrollTrigger);
   lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-  gsap.ticker.lagSmoothing(0, 0);
 
-  // ── CUSTOM CURSOR ──
-  const cursor = document.getElementById('customCursor');
-  document.addEventListener('mousemove', (e) => {
-    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.15, ease: 'power2.out' });
-  });
-
-  const hoverElements = document.querySelectorAll('a, button, .transform-card, .pain-item, .chapter-item, .objection-card, .testimonial-card');
-  hoverElements.forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-  });
-
-  // ── SPLIT TEXT FOR HEADINGS ──
-  const splitHeadings = new SplitType('h1, h2', { types: 'lines, words, chars' });
-
-  // ── INITIAL STATES ──
-  gsap.set('h2 .char', { opacity: 0, y: 40 });
-  gsap.set('.book-card', { opacity: 0, scale: 0.8, rotateY: -20 });
-  gsap.set('.pain-item', { opacity: 0, x: -30 });
-  gsap.set('.chapter-item', { opacity: 0, x: -20 });
-  gsap.set('.transform-card', { opacity: 0, scale: 0.9 });
-  gsap.set('.objection-card', { opacity: 0, y: 30 });
-  gsap.set('.testimonial-card', { opacity: 0, y: 30 });
-  // Elements with .reveal will be handled individually
-
-  // ── PRELOADER & HERO ANIMATION ──
-  const tlLoader = gsap.timeline();
-  tlLoader.to('#loaderProgress', { width: '100%', duration: 1.5, ease: 'power3.inOut' })
-          .to('#loader', { yPercent: -100, duration: 0.8, ease: 'power4.inOut', delay: 0.1 })
-          .to('.badge', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3')
-          .to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.4')
-          .fromTo('.hero h1 .char', 
-              { opacity: 0, y: 50, rotateX: -90 }, 
-              { opacity: 1, y: 0, rotateX: 0, duration: 0.8, stagger: 0.02, ease: 'back.out(1.7)' }, '-=0.4')
-          .to('.hero-sub', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
-          .to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6');
-
-  // ── PARALLAX BG ──
-  gsap.to('.hero-bg', {
-    yPercent: 30,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true
-    }
-  });
-
-  // ── STICKY BAR ──
-  const stickyBar = document.getElementById('stickyBar');
+  // ── STICKY HEADER ──
+  const stickyHeader = document.getElementById('stickyHeader');
   ScrollTrigger.create({
-    start: 'top -400px',
-    onEnter: () => stickyBar.classList.add('visible'),
-    onLeaveBack: () => stickyBar.classList.remove('visible')
+    start: 'top -80px',
+    onEnter: () => stickyHeader.classList.add('visible'),
+    onLeaveBack: () => stickyHeader.classList.remove('visible')
   });
 
   // ── SCROLL ANIMATIONS ──
-  // Generic Reveals
-  document.querySelectorAll('.reveal:not(.objection-card):not(.testimonial-card):not(.price-box):not(.urgency-bar)').forEach(el => {
-    gsap.fromTo(el, { opacity: 0, y: 30 }, {
-      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 85%' }
+  const reveals = document.querySelectorAll('.reveal');
+  reveals.forEach((el, i) => {
+    gsap.to(el, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 85%'
+      },
+      delay: i * 0.05
     });
   });
 
-  // Headings
-  document.querySelectorAll('h2').forEach(h2 => {
-    gsap.to(h2.querySelectorAll('.char'), {
-      opacity: 1, y: 0, duration: 0.6, stagger: 0.01, ease: 'back.out(1.5)',
-      scrollTrigger: { trigger: h2, start: 'top 85%' }
-    });
-  });
-
-  // Pain Items
-  gsap.to('.pain-item', {
-    opacity: 1, x: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
-    scrollTrigger: { trigger: '.pain-list', start: 'top 80%' }
-  });
-
-  // Book Card 3D Effect
-  gsap.to('.book-card', {
-    opacity: 1, scale: 1, rotateY: -8, duration: 1.2, ease: 'power4.out',
-    scrollTrigger: { trigger: '.book-inner', start: 'top 70%' }
-  });
-  
-  // Hero Image Parallax (Optional refined effect)
-  gsap.to('.hero-image img', {
-    y: -30,
-    rotateX: 5,
-    scrollTrigger: {
-      trigger: '.hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true
-    }
-  });
-
-  // Chapters
-  gsap.to('.chapter-item', {
-    opacity: 1, x: 0, duration: 0.4, stagger: 0.05, ease: 'power2.out',
-    scrollTrigger: { trigger: '.chapters', start: 'top 80%' }
-  });
-
-  // Transform Cards
-  gsap.to('.transform-card', {
-    opacity: 1, scale: 1, duration: 0.6, stagger: 0.15, ease: 'back.out(1.5)',
-    scrollTrigger: { trigger: '.transform-grid', start: 'top 80%' }
-  });
-
-  // Objection Cards
-  gsap.to('.objection-card', {
-    opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out',
-    scrollTrigger: { trigger: '.objection-grid', start: 'top 80%' }
-  });
-
-  // Testimonial Cards
-  gsap.to('.testimonial-card', {
-    opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: 'power3.out',
-    scrollTrigger: { trigger: '.testimonials-grid', start: 'top 80%' }
-  });
-
-  // Price Box
-  gsap.fromTo('.price-box', { opacity: 0, y: 40 }, {
-    opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-    scrollTrigger: { trigger: '.price-box', start: 'top 85%' }
-  });
-
-  // Price Features
-  gsap.fromTo('.price-feature', { opacity: 0, x: -20 }, {
-    opacity: 1, x: 0, duration: 0.4, stagger: 0.1, ease: 'power2.out',
-    scrollTrigger: { trigger: '.price-features', start: 'top 85%' }
-  });
-
-  // Urgency Bar
-  gsap.fromTo('.urgency-bar', { opacity: 0, scale: 0.95 }, {
-    opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.2)',
-    scrollTrigger: { trigger: '.urgency-bar', start: 'top 90%' }
-  });
+  // Hero animations
+  gsap.to('.hero-badge', { opacity: 1, y: 0, duration: 0.6, delay: 0.3 });
+  gsap.to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.6, delay: 0.4 });
+  gsap.to('.hero h1', { opacity: 1, y: 0, duration: 0.8, delay: 0.5 });
+  gsap.to('.hero-description', { opacity: 1, y: 0, duration: 0.8, delay: 0.65 });
+  gsap.to('.hero-actions', { opacity: 1, y: 0, duration: 0.8, delay: 0.8 });
 
   // ── COUNTDOWN ──
   function startCountdown() {
@@ -1633,8 +1744,7 @@ src="https://www.facebook.com/tr?id=904199165970469&ev=PageView&noscript=1"
   }
   startCountdown();
 
-  // ── META PIXEL TRACKING (INITIATE CHECKOUT) ──
-  // Aciona o evento de Iniciar Compra (InitiateCheckout) quando o utilizador clica nos botões de compra.
+  // ── META PIXEL TRACKING ──
   document.querySelectorAll('a[href*="pay.kikoloonline.com"]').forEach(btn => {
     btn.addEventListener('click', () => {
       if (typeof fbq === 'function') {
@@ -1647,7 +1757,8 @@ src="https://www.facebook.com/tr?id=904199165970469&ev=PageView&noscript=1"
       }
     });
   });
-  // ── INICIALIZAR ÍCONES ──
+
+  // ── INITIALIZE ICONS ──
   lucide.createIcons();
 </script>
 
