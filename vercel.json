@@ -1,8 +1,9 @@
 {
-  "builds": [
-    { "src": "**/*", "use": "@vercel/static" }
-  ],
   "routes": [
+    { "src": "/hero.png", "dest": "/hero.png" },
+    { "src": "/2.png", "dest": "/2.png" },
+    { "src": "/3.png", "dest": "/3.png" },
+    { "src": "/ebook.png", "dest": "/ebook.png" },
     { "src": "/(.*)", "dest": "/da-defesa-ao-sim.html" }
   ]
 }
