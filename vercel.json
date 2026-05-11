@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "da-defesa-ao-sim.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/da-defesa-ao-sim.html"
+    }
+  ]
+}
